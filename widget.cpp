@@ -6,7 +6,7 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
-    scene = new QGraphicsScene(0,0,640,350);
+    scene = new QGraphicsScene(0,0,0,0);
     scene->setItemIndexMethod(QGraphicsScene::NoIndex);
 
     ui->graphicsView->setScene(scene);
@@ -71,10 +71,11 @@ void Widget::SKM_to_SKN()
 
 void Widget::SKN_to_SKK()
 {
+    float s = sqrt(x0*x0+y0*y0+z0*z0);
     for(int i=0;i<9;i++)
     {
-        VerKa[i][0] = Ver[i][0];
-        VerKa[i][1] = Ver[i][1];
+        VerKa[i][0] = Ver[i][0]/Ver[i][2]*s;
+        VerKa[i][1] = Ver[i][1]/Ver[i][2]*s;
     }
 }
 
@@ -91,13 +92,9 @@ void Widget::print_scene()
 {
     for(int i =0;i<11;i++)
     {
-        //QLineF temp(QPointF(VerEk[Reb[i][0]-1][0],VerEk[Reb[i][0]-1][1]),QPointF(VerEk[Reb[i][1]-1][0],VerEk[Reb[i][1]-1][1]));
-        std::cout<< VerEk[i][0]<<' '<<VerEk[i][1]<<'\n';
-        QLineF temp(QPointF(VerEk[Reb[i][0]-1][0],VerEk[Reb[i][0]-1][1]),QPointF(VerEk[Reb[i][1]-1][0],VerEk[Reb[i][1]-1][1]));
-
+        QLineF temp(QPointF(VerEk[Reb[i][0]-1][0],-VerEk[Reb[i][0]-1][1]),QPointF(VerEk[Reb[i][1]-1][0],-VerEk[Reb[i][1]-1][1]));
         scene->addLine(temp);
     }
-    std::cout<<"---------\n";
 }
 
 void Widget::DrawLoop()
