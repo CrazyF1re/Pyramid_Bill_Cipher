@@ -6,6 +6,15 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    scene = new QGraphicsScene(0,0,640,350);
+    scene->setItemIndexMethod(QGraphicsScene::NoIndex);
+
+    ui->graphicsView->setScene(scene);
+
+    animationTimer = new QTimer(this);
+    connect(animationTimer,SIGNAL(timeout()),this,SLOT(DrawLoop()));
+    animationTimer->start(1000);
+
     float numbT[] = {1,0,0,0,
                    0,1,0,0,
                    0,0,1,0,
@@ -34,6 +43,9 @@ Widget::Widget(QWidget *parent)
     Ry = Matrix(4,4,numbRy);
     Rxw = Matrix(4,4,numbRxw);
 
+
+
+
 }
 
 void Widget::SKM_to_SKN()
@@ -45,7 +57,7 @@ void Widget::SKM_to_SKN()
   temp *= Ry;
   temp *= Rxw;
   V = temp;
-  for(int i=0;i<8;i++)
+  for(int i=0;i<9;i++)
   {
     float temp[] = {Ver[i][0],Ver[i][1],Ver[i][2],1};
     Matrix tmp(1,4,temp);
@@ -59,11 +71,40 @@ void Widget::SKM_to_SKN()
 
 void Widget::SKN_to_SKK()
 {
-    for(int i=0;i<8;i++)
+    for(int i=0;i<9;i++)
     {
         VerKa[i][0] = Ver[i][0];
         VerKa[i][1] = Ver[i][1];
     }
+}
+
+void Widget::SKK_to_SKEi()
+{
+    for(int i =0;i<9;i++)
+    {
+        VerEk[i][0] = VerKa[i][0]/P*xe+xc;
+        VerEk[i][1] = VerKa[i][1]/P*ye+yc;
+    }
+}
+
+void Widget::print_scene()
+{
+    for(int i =0;i<11;i++)
+    {
+        //QLineF temp(QPointF(VerEk[Reb[i][0]-1][0],VerEk[Reb[i][0]-1][1]),QPointF(VerEk[Reb[i][1]-1][0],VerEk[Reb[i][1]-1][1]));
+        std::cout<< VerEk[i][0]<<' '<<VerEk[i][1]<<'\n';
+        QLineF temp(QPointF(VerEk[Reb[i][0]-1][0],VerEk[Reb[i][0]-1][1]),QPointF(VerEk[Reb[i][1]-1][0],VerEk[Reb[i][1]-1][1]));
+
+        scene->addLine(temp);
+    }
+    std::cout<<"---------\n";
+}
+
+void Widget::DrawLoop()
+{
+    scene->clear();
+    print_scene();
+
 }
 
 Widget::~Widget()

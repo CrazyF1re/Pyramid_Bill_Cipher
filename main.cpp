@@ -8,9 +8,10 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     Widget w;
-    w.show();
-    w.print_Ver();
     w.SKM_to_SKN();
-        w.print_Ver();
+    w.SKN_to_SKK();
+    w.SKK_to_SKEi();
+    w.printMatrices();
+    w.show();
     return a.exec();
 }
