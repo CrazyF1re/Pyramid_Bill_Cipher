@@ -1,4 +1,4 @@
-#ifndef MATRIX_H
+﻿#ifndef MATRIX_H
 #define MATRIX_H
 
 #include <QApplication>
@@ -8,18 +8,18 @@ class Matrix
 private:
     int m_height;
     int m_width;
-    int** m_array;
+    float** m_array;
 
 public:
     Matrix();//Default constructor, height:0 width:0
     Matrix(const Matrix&);//copy constructor
 
-    Matrix(int height, int width, int numbers[]);//constructor with height and width of matrix and massive of numbers
+    Matrix(int height, int width, float numbers[]);//constructor with height and width of matrix and massive of numbers
                                                 //if height*width < numbers then unnesessary numbers just ignors
     //Getters
     int GetHeight() const;
     int GetWidth() const;
-    int** GetNumbers() const;
+    float** GetNumbers() const;
 
 
     void print()
@@ -41,6 +41,7 @@ public:
     Matrix& operator+=(const Matrix& temp);//overloading operators
     Matrix& operator-=(const Matrix& temp);
     Matrix& operator*=(const Matrix& temp);
+    Matrix& operator=(const Matrix& temp);
 
 };
 

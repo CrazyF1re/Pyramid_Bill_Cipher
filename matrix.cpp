@@ -12,11 +12,11 @@ Matrix::Matrix(const Matrix & temp)
 {
     m_height = temp.GetHeight();
     m_width = temp.GetWidth();
-    int** tmp_arr = temp.GetNumbers();
-    m_array = new int*[m_height];
+    float** tmp_arr = temp.GetNumbers();
+    m_array = new float*[m_height];
     for(int i =0; i <m_height;i++)
     {
-        m_array[i] = new int[m_width];
+        m_array[i] = new float[m_width];
         for(int j=0;j<m_width;j++)
         {
             m_array[i][j] = tmp_arr[i][j];
@@ -24,14 +24,14 @@ Matrix::Matrix(const Matrix & temp)
     }
 }
 
-Matrix::Matrix(int height, int width, int numbers[])
+Matrix::Matrix(int height, int width, float numbers[])
 {
     m_height = height;
     m_width = width;
-    m_array = new int*[m_height];
+    m_array = new float*[m_height];
     for(int i=0;i<m_height;i++)
     {
-        m_array[i] = new int[m_width];
+        m_array[i] = new float[m_width];
         for(int j=0;j<m_width;j++)
         {
             m_array[i][j] = numbers[i*m_width+j];
@@ -52,7 +52,7 @@ int Matrix::GetWidth() const
     return m_width;
 }
 
-int **Matrix::GetNumbers() const
+float **Matrix::GetNumbers() const
 {
     return m_array;
 }
@@ -63,7 +63,7 @@ bool Matrix::Add(const Matrix & temp)
 {
     if (m_height== temp.GetHeight() && m_width==temp.GetWidth())
     {
-        int** tmp_array = temp.GetNumbers();
+        float** tmp_array = temp.GetNumbers();
         for(int i=0;i<m_height;i++)
         {
             for(int j=0;j<m_width;j++)
@@ -80,7 +80,7 @@ bool Matrix::Substr(const Matrix& temp)
 {
     if (m_height== temp.GetHeight() && m_width==temp.GetWidth())
     {
-        int** tmp_array = temp.GetNumbers();
+        float** tmp_array = temp.GetNumbers();
         for(int i=0;i<m_height;i++)
         {
             for(int j=0;j<m_width;j++)
@@ -97,11 +97,11 @@ bool Matrix::Multiply(const Matrix& temp)
 {
     if (m_width == temp.GetHeight())
     {
-       int** tmp_arr = temp.GetNumbers();
-       int** new_matrix= new int*[m_height];
+       float** tmp_arr = temp.GetNumbers();
+       float** new_matrix= new float*[m_height];
        for(int i=0;i<m_height;i++)
        {
-           new_matrix[i]=new int[temp.GetWidth()];
+           new_matrix[i]=new float[temp.GetWidth()];
            for(int j=0;j<temp.GetWidth();j++)
            {
                new_matrix[i][j]=0;
@@ -133,6 +133,14 @@ Matrix &Matrix::operator-=(const Matrix &temp)
 Matrix &Matrix::operator*=(const Matrix &temp)
 {
     this->Multiply(temp);
+    return *this;
+}
+
+Matrix &Matrix::operator=(const Matrix &temp)
+{
+    m_array = temp.GetNumbers();
+    m_height = temp.GetHeight();
+    m_width = temp.GetWidth();
     return *this;
 }
 
