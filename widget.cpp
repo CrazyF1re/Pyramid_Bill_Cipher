@@ -13,7 +13,7 @@ Widget::Widget(QWidget *parent)
 
     animationTimer = new QTimer(this);
     connect(animationTimer,SIGNAL(timeout()),this,SLOT(DrawLoop()));
-    animationTimer->start(100);
+    animationTimer->start(1000/60);
     update_Matrices();
 
 
@@ -112,23 +112,29 @@ void Widget::DrawLoop()
 {
     print_Ver();
     scene->clear();
-    if(flag && x0>20){
-        x0--;
-    }
-    else if(flag && x0<=20)
-    {
-        x0++;
-        flag=!flag;
-    }
-    else if (!flag && x0<100)
-    {
-        x0++;
-    }
-    else if(!flag && x0>=100)
-    {
-        x0--;
-        flag = !flag;
-    }
+//    if(flag && x0>20){
+//        x0--;
+//    }
+//    else if(flag && x0<=20)
+//    {
+//        x0++;
+//        flag=!flag;
+//    }
+//    else if (!flag && x0<100)
+//    {
+//        x0++;
+//    }
+//    else if(!flag && x0>=100)
+//    {
+//        x0--;
+//        flag = !flag;
+//    }
+
+    double new_x1 = x0*cos(angle)-y0*sin(angle);
+    double new_y1 = x0*sin(angle)+y0*cos(angle);
+    x0 = new_x1;
+    y0 = new_y1;
+
     update_Matrices();
     SKM_to_SKN();
     SKN_to_SKK();

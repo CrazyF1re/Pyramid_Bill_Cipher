@@ -13,9 +13,10 @@ QT_END_NAMESPACE
 class Widget : public QWidget
 {
     Q_OBJECT
-    int x0 = 100;
-    int y0 = 0;
-    int z0 = 50;
+    double angle = -3.1415926535/54;
+    float x0 = 100;
+    float y0 = 0;
+    float z0 = 50;
     int xc = 160;
     int yc = 80;
     int xe = 100;
