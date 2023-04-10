@@ -13,13 +13,13 @@ QT_END_NAMESPACE
 class Widget : public QWidget
 {
     Q_OBJECT
-    int ver_numb = 9;
-    int reb_numb = 11;
-    int gran_numb = 5;
+    int ver_numb = 9;//количество вершин
+    int reb_numb = 11;//количество ребер
+    int gran_numb = 5;//количество граней
 
-    double angle = -3.1415926535/54;
+    double angle = -3.1415926535/54;//угол поворота
 
-    float x0 = 50;
+    float x0 = 50;//координаты наблюдателя
     float y0 = 0;
     float z0 = 50;
 
@@ -28,43 +28,37 @@ class Widget : public QWidget
     int xe = 100;
     int ye = 100;
 
-    bool flag = 1;
-    Matrix T;
+    Matrix T;//
     Matrix S;
     Matrix Rx90;
     Matrix Ry;
     Matrix Rxw;
     Matrix V;
+
     float** Ver;
     float** Changeble_Ver;
     int** Reb;
-    int  Gran[5][6] = {{5,6,7,8,1,0},
-                       {5,6,9,5,0,0},
-                       {6,7,9,6,0,0},
-                       {7,8,9,7,0,0},
-                       {5,8,9,5,0,0}
-                        };
+    int**  Gran;
 
-    float GravityCenter[3];
-    float** W;
+    float GravityCenter[3];//центр тяжести
+    float** W;//матрица тела
     float** VerKa;
     float** VerEk;
-    int P = 5;
-    bool* isVisibleFace;
+    int P = 5;//коэффициет
+    bool* isVisibleFace;//матрица с видимыми гранями
 
-    QTimer *animationTimer;
+    QTimer *animationTimer;//таймер
 
-    void update_Matrices();
-    void InitGravityCenter();
-    void Init_W_Matrix();
-    void updateVisibleFaces();
+    void update_Matrices();//обновление матриц при каждом изменении координат наблюдателя
+    void InitGravityCenter();//нахождение центра тяжести
+    void Init_W_Matrix();//нахождение матрицы тела
+    void updateVisibleFaces();//обновление видимых граней при каждом изменении координат наблюдателя
 public:
     Widget(QWidget *parent = nullptr);
-    void SKM_to_SKN();
-    void SKN_to_SKK();
-    void SKK_to_SKEi();
-    void SKEi_to_SKEf();
-    void print_Ver()
+    void SKM_to_SKN();//очевидно
+    void SKN_to_SKK();//очевидно + очевидно
+    void SKK_to_SKEi();//суперочевидно
+    void print_Ver()//вывод вершин
     {
         for(int i =0;i<ver_numb;i++)
         {
@@ -76,7 +70,7 @@ public:
         }
         std::cout<<"---------\n";
     }
-    void printMatrices()
+    void printMatrices()//вывод матриц
     {
         std::cout<<"T\n";
         T.print();
@@ -89,15 +83,15 @@ public:
         std::cout<<"Rxw\n";
         Rxw.print();
     }
-    void print_scene();
+    void print_scene();//вывод всех нужных ребер
 
-    ~Widget();
+    ~Widget();//деструктор
 
 private:
     Ui::Widget *ui;
     QGraphicsScene *scene;
 
 public slots:
-    void DrawLoop();
+    void DrawLoop();//основной цикл
 };
 #endif // WIDGET_H
