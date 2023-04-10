@@ -14,10 +14,51 @@ Widget::Widget(QWidget *parent)
     animationTimer = new QTimer(this);
     connect(animationTimer,SIGNAL(timeout()),this,SLOT(DrawLoop()));
     animationTimer->start(1000/10);
+
+    isVisibleFace = new bool[gran_numb];
+    W = new float*[4];
+    for (int i =0; i<4;i++)
+    {
+        W[i] = new float[gran_numb];
+    }
+    VerKa = new float*[ver_numb];
+    VerEk = new float*[ver_numb];
+    Ver = new float*[ver_numb];
+    Changeble_Ver = new float*[ver_numb];
+    Reb = new int*[reb_numb];
+//    Gran = new int*[gran_numb];
+    float temp_ver[9][3] = {{0,0,0},{0,5,0},{5,0,0},{0,0,5},{10,-5,0},{-10,-5,0},{-10,5,0},{10,5,0},{0,0,20}};
+    int temp_reb[11][2] = {{1,2},{1,3},{1,4},{5,6},{6,7},{5,8},{8,7},{9,5},{9,6},{9,7},{9,8}};
+    int  temp_gran[5][6] = {{5,6,7,8,1,0},
+                       {5,6,9,5,0,0},
+                       {6,7,9,6,0,0},
+                       {7,8,9,7,0,0},
+                       {5,8,9,5,0,0}
+                        };
+
+    for (int i=0;i<ver_numb;i++)
+    {
+        VerEk[i] = new float[2];
+        VerKa[i] = new float[2];
+        Ver[i] = new float[3];
+        Changeble_Ver[i] = new float[3];
+        for(int j=0;j<3;j++)
+        {
+            Ver[i][j] = temp_ver[i][j];
+            Changeble_Ver[i][j]= temp_ver[i][j];
+        }
+    }
+    for(int i =0;i<reb_numb;i++)
+    {
+        Reb[i] = new int[2];
+        for(int j=0;j<2;j++)
+        {
+            Reb[i][j] = temp_reb[i][j];
+        }
+    }
     update_Matrices();
     InitGravityCenter();
     Init_W_Matrix();
-
 }
 void Widget::update_Matrices()
 {
