@@ -13,10 +13,10 @@ Widget::Widget(QWidget *parent)
 
     animationTimer = new QTimer(this);
     connect(animationTimer,SIGNAL(timeout()),this,SLOT(DrawLoop()));
-    animationTimer->start(1000/60);
+    animationTimer->start(1000/10);
     update_Matrices();
-
-
+    InitGravityCenter();
+    Init_W_Matrix();
 
 }
 void Widget::update_Matrices()
@@ -56,7 +56,66 @@ void Widget::update_Matrices()
             Changeble_Ver[i][j] = Ver[i][j];
         }
     }
+    updateVisibleFaces();
 
+}
+void Widget::InitGravityCenter()
+{
+    float Xc=0;
+    float Yc=0;
+    float Zc=0;
+    for(int i =4;i<9;i++)
+    {
+        Xc+=Ver[i][0];
+        Yc+=Ver[i][1];
+        Zc+=Ver[i][2];
+    }
+    Xc/=5;
+    Yc/=5;
+    Zc/=5;
+    GravityCenter[0] = Xc;
+    GravityCenter[1] = Yc;
+    GravityCenter[2] = Zc;
+}
+
+void Widget::Init_W_Matrix()
+{
+ for (int i=0;i<5;i++)
+ {
+    float A = (Ver[Gran[i][2]-1][1]-Ver[Gran[i][0]-1][1])*(Ver[Gran[i][1]-1][2]-Ver[Gran[i][0]-1][2]) -
+            (Ver[Gran[i][1]-1][1]-Ver[Gran[i][0]-1][1])*(Ver[Gran[i][2]-1][2]-Ver[Gran[i][0]-1][2]);
+    float B = (Ver[Gran[i][1]-1][0]-Ver[Gran[i][0]-1][0])*(Ver[Gran[i][2]-1][2]-Ver[Gran[i][0]-1][2]) -
+            (Ver[Gran[i][2]-1][0]-Ver[Gran[i][0]-1][0])*(Ver[Gran[i][1]-1][2]-Ver[Gran[i][0]-1][2]);
+    float C = (Ver[Gran[i][2]-1][0]-Ver[Gran[i][0]-1][0])*(Ver[Gran[i][1]-1][1]-Ver[Gran[i][0]-1][1]) -
+            (Ver[Gran[i][1]-1][0]-Ver[Gran[i][0]-1][0])*(Ver[Gran[i][2]-1][1]-Ver[Gran[i][0]-1][1]);
+    float D = -(A*Ver[Gran[i][0]-1][0]+B*Ver[Gran[i][0]-1][1]+C*Ver[Gran[i][0]-1][2]);
+    if (A*GravityCenter[0]+B*GravityCenter[1]+C*GravityCenter[2]+D<0)
+    {
+        A=-A;
+        B=-B;
+        C=-C;
+        D=-D;
+    }
+    W[0][i] = A;
+    W[1][i] = B;
+    W[2][i] = C;
+    W[3][i] = D;
+ }
+}
+
+void Widget::updateVisibleFaces()
+{
+    for(int i=0;i<5;i++)
+    {
+        if(W[0][i]*x0+W[1][i]*y0+W[2][i]*z0+W[3][i]<0)
+        {
+            isVisibleFace[i] = true;
+        }
+        else
+        {
+            isVisibleFace[i] = false;
+        }
+    }
 }
 
 void Widget::SKM_to_SKN()
@@ -101,16 +160,31 @@ void Widget::SKK_to_SKEi()
 
 void Widget::print_scene()
 {
-    for(int i =0;i<11;i++)
+//    for(int i =0;i<11;i++)
+//    {
+//        QLineF temp(QPointF(VerEk[Reb[i][0]-1][0],-VerEk[Reb[i][0]-1][1]),QPointF(VerEk[Reb[i][1]-1][0],-VerEk[Reb[i][1]-1][1]));
+//        scene->addLine(temp);
+//    }
+    scene->addLine(QLineF (QPointF(VerEk[0][0],-VerEk[0][1]),QPointF(VerEk[1][0],-VerEk[1][1])));
+    scene->addLine(QLineF (QPointF(VerEk[0][0],-VerEk[0][1]),QPointF(VerEk[2][0],-VerEk[2][1])));
+    scene->addLine(QLineF (QPointF(VerEk[0][0],-VerEk[0][1]),QPointF(VerEk[3][0],-VerEk[3][1])));
+    for(int i =0;i<5;i++)
     {
-        QLineF temp(QPointF(VerEk[Reb[i][0]-1][0],-VerEk[Reb[i][0]-1][1]),QPointF(VerEk[Reb[i][1]-1][0],-VerEk[Reb[i][1]-1][1]));
-        scene->addLine(temp);
+        if (isVisibleFace[i])
+        {
+            int j =0;
+            while(j+1!=5 && Gran[i][j+1]!=0)
+            {
+                QLineF temp(QPointF(VerEk[Gran[i][j]-1][0],-VerEk[Gran[i][j]-1][1]),QPointF(VerEk[Gran[i][j+1]-1][0],-VerEk[Gran[i][j+1]-1][1]));
+                scene->addLine(temp);
+                j++;
+            }
+        }
     }
 }
 
 void Widget::DrawLoop()
 {
-    print_Ver();
     scene->clear();
 //    if(flag && x0>20){
 //        x0--;

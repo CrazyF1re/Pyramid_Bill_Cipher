@@ -13,8 +13,9 @@ QT_END_NAMESPACE
 class Widget : public QWidget
 {
     Q_OBJECT
+
     double angle = -3.1415926535/54;
-    float x0 = 100;
+    float x0 = 50;
     float y0 = 0;
     float z0 = 50;
     int xc = 160;
@@ -27,16 +28,27 @@ class Widget : public QWidget
     Matrix Rx90;
     Matrix Ry;
     Matrix Rxw;
-    float Ver[9][3] = {{0,0,0},{0,5,0},{5,0,0},{0,0,5},{10,-5,0},{10,5,0},{-10,-5,0},{-10,5,0},{0,0,20}};
-    float Changeble_Ver[9][3] = {{0,0,0},{0,5,0},{5,0,0},{0,0,5},{10,-5,0},{10,5,0},{-10,-5,0},{-10,5,0},{0,0,20}};
-    int Reb[11][2] = {{1,2},{1,3},{1,4},{5,6},{5,7},{6,8},{8,7},{9,5},{9,6},{9,7},{9,8}};
+    float Ver[9][3] = {{0,0,0},{0,5,0},{5,0,0},{0,0,5},{10,-5,0},{-10,-5,0},{-10,5,0},{10,5,0},{0,0,20}};
+    float Changeble_Ver[9][3] = {{0,0,0},{0,5,0},{5,0,0},{0,0,5},{10,-5,0},{-10,-5,0},{-10,5,0},{10,5,0},{0,0,20}};
+    int Reb[11][2] = {{1,2},{1,3},{1,4},{5,6},{6,7},{5,8},{8,7},{9,5},{9,6},{9,7},{9,8}};
     float VerKa[9][2];
     float VerEk[9][2];
+    int  Gran[5][6] = {{5,6,7,8,1,0},
+                         {5,6,9,5,0,0},
+                         {6,7,9,6,0,0},
+                         {7,8,9,7,0,0},
+                         {5,8,9,5,0,0}
+                        };
+    float GravityCenter[3];
     Matrix V;
+    float W[4][5];
     int P = 5;
-
+    bool isVisibleFace[5];
     QTimer *animationTimer;
-
+    void update_Matrices();
+    void InitGravityCenter();
+    void Init_W_Matrix();
+    void updateVisibleFaces();
 public:
     Widget(QWidget *parent = nullptr);
     void SKM_to_SKN();
@@ -69,7 +81,7 @@ public:
         Rxw.print();
     }
     void print_scene();
-    void update_Matrices();
+
     ~Widget();
 
 private:
