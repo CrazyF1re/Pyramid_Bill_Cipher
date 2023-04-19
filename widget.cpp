@@ -101,6 +101,10 @@ void Widget::print_scene()
 void Widget::DrawLoop()
 {
     scene->clear();
+    double new_z1 = z0*cos(angle)-z0*sin(angle);
+    double new_y1 = x0*sin(angle)+y0*cos(angle);
+    z0 = new_x1;
+    y0 = new_y1;
     print_scene();
 
 }
