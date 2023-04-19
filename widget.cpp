@@ -13,8 +13,11 @@ Widget::Widget(QWidget *parent)
 
     animationTimer = new QTimer(this);
     connect(animationTimer,SIGNAL(timeout()),this,SLOT(DrawLoop()));
-    animationTimer->start(100);
+    animationTimer->start(1000/3);
 
+}
+void Widget::update_Matrices()
+{
     float numbT[] = {1,0,0,0,
                    0,1,0,0,
                    0,0,1,0,
@@ -43,10 +46,8 @@ Widget::Widget(QWidget *parent)
     Ry = Matrix(4,4,numbRy);
     Rxw = Matrix(4,4,numbRxw);
 
-
-
-
 }
+
 
 void Widget::SKM_to_SKN()
 {
@@ -88,6 +89,8 @@ void Widget::print_scene()
             Ver[0] = x;
             Ver[1] = x*x+z*z;
             Ver[2] = z;
+
+
             SKM_to_SKN();
             SKN_to_SKK();
             SKK_to_SKEi();
@@ -101,10 +104,11 @@ void Widget::print_scene()
 void Widget::DrawLoop()
 {
     scene->clear();
-    double new_x1 = x0*cos(angle)-y0*sin(angle);
-    double new_y1 = x0*sin(angle)+y0*cos(angle);
+    double new_x1 = x0*cos(angle)-z0*sin(angle);
+    double new_z1 = x0*sin(angle)+z0*cos(angle);
     x0 = new_x1;
-    y0 = new_y1;
+    z0 = new_z1;
+    update_Matrices();
     print_scene();
 
 }

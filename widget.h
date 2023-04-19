@@ -13,29 +13,29 @@ QT_END_NAMESPACE
 class Widget : public QWidget
 {
     Q_OBJECT
-    int x0 = 50;
-    int y0 = 0;
-    int z0 = 50;
-    int xc = 160;
-    int yc = 80;
-    int xe = 800;
-    int ye = 800;
+    float x0 = 100;
+    float y0 = 0;
+    float z0 = 100;
+    float xc = 160;
+    float yc = 80;
+    float xe = 800;
+    float ye = 800;
     Matrix T;
     Matrix S;
     Matrix Rx90;
     Matrix Ry;
     Matrix Rxw;
     Matrix V;
-    int P = 5;
+    float P = 5;
 
-    double angle = -3.1415926535/54;
-    double rad = 0.5;
+    double angle = 3.1415926535/54;
+    double rad = 2;
     float Xmin = -2;
     float Xmax = 2;
     float Zmin = -2;
     float Zmax = 2;
-    float Dz = 0.2;
-    float Dx = 0.01;
+    float Dz = 0.3;
+    float Dx = 0.04;
     float Ver[3];
     float VerEk[3];
     float VerKa[3];
@@ -47,6 +47,7 @@ public:
     void SKN_to_SKK();
     void SKK_to_SKEi();
     void SKEi_to_SKEf();
+    void update_Matrices();
     void printMatrices()
     {
         std::cout<<"T\n";
