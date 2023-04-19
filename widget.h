@@ -18,20 +18,27 @@ class Widget : public QWidget
     int z0 = 50;
     int xc = 160;
     int yc = 80;
-    int xe = 100;
-    int ye = 100;
+    int xe = 800;
+    int ye = 800;
     Matrix T;
     Matrix S;
     Matrix Rx90;
     Matrix Ry;
     Matrix Rxw;
-    float Ver[9][3] = {{0,0,0},{0,5,0},{5,0,0},{0,0,5},{10,-5,0},{10,5,0},{-10,-5,0},{-10,5,0},{0,0,20}};
-    int Reb[11][2] = {{1,2},{1,3},{1,4},{5,6},{5,7},{6,8},{8,7},{9,5},{9,6},{9,7},{9,8}};
-    float VerKa[9][2];
-    float VerEk[9][2];
     Matrix V;
     int P = 5;
 
+
+    double rad = 0.5;
+    float Xmin = -2;
+    float Xmax = 2;
+    float Zmin = -2;
+    float Zmax = 2;
+    float Dz = 0.2;
+    float Dx = 0.001;
+    float Ver[3];
+    float VerEk[3];
+    float VerKa[3];
     QTimer *animationTimer;
 
 public:
@@ -40,18 +47,6 @@ public:
     void SKN_to_SKK();
     void SKK_to_SKEi();
     void SKEi_to_SKEf();
-    void print_Ver()
-    {
-        for(int i =0;i<9;i++)
-        {
-            for(int j =0;j<3;j++)
-            {
-                std::cout<<Ver[i][j]<<' ';
-            }
-            std::cout<<'\n';
-        }
-        std::cout<<"---------\n";
-    }
     void printMatrices()
     {
         std::cout<<"T\n";

@@ -11,7 +11,6 @@ int main(int argc, char *argv[])
     w.SKM_to_SKN();
     w.SKN_to_SKK();
     w.SKK_to_SKEi();
-    w.printMatrices();
     w.show();
     return a.exec();
 }

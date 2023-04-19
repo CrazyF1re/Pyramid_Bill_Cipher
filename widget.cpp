@@ -13,7 +13,7 @@ Widget::Widget(QWidget *parent)
 
     animationTimer = new QTimer(this);
     connect(animationTimer,SIGNAL(timeout()),this,SLOT(DrawLoop()));
-    animationTimer->start(1000);
+    animationTimer->start(500);
 
     float numbT[] = {1,0,0,0,
                    0,1,0,0,
@@ -57,43 +57,44 @@ void Widget::SKM_to_SKN()
   temp *= Ry;
   temp *= Rxw;
   V = temp;
-  for(int i=0;i<9;i++)
-  {
-    float temp[] = {Ver[i][0],Ver[i][1],Ver[i][2],1};
-    Matrix tmp(1,4,temp);
-    tmp*=V;
-    float** new_ver = tmp.GetNumbers();
-    Ver[i][0] = new_ver[0][0];
-    Ver[i][1] = new_ver[0][1];
-    Ver[i][2] = new_ver[0][2];
-  }
+  float temp2[] = {Ver[0],Ver[1],Ver[2],1};
+  Matrix tmp(1,4,temp2);
+  tmp*=V;
+  float** new_ver = tmp.GetNumbers();
+  Ver[0] = new_ver[0][0];
+  Ver[1] = new_ver[0][1];
+  Ver[2] = new_ver[0][2];
 }
 
 void Widget::SKN_to_SKK()
 {
     float s = sqrt(x0*x0+y0*y0+z0*z0);
-    for(int i=0;i<9;i++)
-    {
-        VerKa[i][0] = Ver[i][0]/Ver[i][2]*s;
-        VerKa[i][1] = Ver[i][1]/Ver[i][2]*s;
-    }
+    VerKa[0] = Ver[0]/Ver[2]*s;
+    VerKa[1] = Ver[1]/Ver[2]*s;
 }
 
 void Widget::SKK_to_SKEi()
 {
-    for(int i =0;i<9;i++)
-    {
-        VerEk[i][0] = VerKa[i][0]/P*xe+xc;
-        VerEk[i][1] = VerKa[i][1]/P*ye+yc;
-    }
+        VerEk[0] = VerKa[0]/P*xe+xc;
+        VerEk[1] = VerKa[1]/P*ye+yc;
 }
 
 void Widget::print_scene()
 {
-    for(int i =0;i<11;i++)
+    for(float z= Zmin; z<Zmax;z+=Dz)
     {
-        QLineF temp(QPointF(VerEk[Reb[i][0]-1][0],-VerEk[Reb[i][0]-1][1]),QPointF(VerEk[Reb[i][1]-1][0],-VerEk[Reb[i][1]-1][1]));
-        scene->addLine(temp);
+        for (float x = Xmin; x<Xmax;x+=Dx)
+        {
+            Ver[0] = x;
+            Ver[1] = x*x+z*z;
+            Ver[2] = z;
+            SKM_to_SKN();
+            SKN_to_SKK();
+            SKK_to_SKEi();
+            scene->addEllipse(VerEk[0]-rad, VerEk[1]-rad, rad*2.0, rad*2.0,
+                        QPen(), QBrush(Qt::SolidPattern));
+
+        }
     }
 }
 
