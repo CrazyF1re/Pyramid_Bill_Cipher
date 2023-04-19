@@ -28,7 +28,7 @@ class Widget : public QWidget
     Matrix V;
     int P = 5;
 
-
+    double angle =
     double rad = 0.5;
     float Xmin = -2;
     float Xmax = 2;
