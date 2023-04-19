@@ -35,7 +35,7 @@ class Widget : public QWidget
     float Zmin = -2;
     float Zmax = 2;
     float Dz = 0.2;
-    float Dx = 0.001;
+    float Dx = 0.01;
     float Ver[3];
     float VerEk[3];
     float VerKa[3];

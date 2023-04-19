@@ -13,7 +13,7 @@ Widget::Widget(QWidget *parent)
 
     animationTimer = new QTimer(this);
     connect(animationTimer,SIGNAL(timeout()),this,SLOT(DrawLoop()));
-    animationTimer->start(500);
+    animationTimer->start(100);
 
     float numbT[] = {1,0,0,0,
                    0,1,0,0,
