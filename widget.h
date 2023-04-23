@@ -14,7 +14,7 @@ class Widget : public QWidget
 {
     Q_OBJECT
     float x0 = 100;
-    float y0 = 5;
+    float y0 = 0;
     float z0 = 100;
     float xc = 160;
     float yc = 120;

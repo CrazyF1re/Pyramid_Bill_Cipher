@@ -13,7 +13,7 @@ Widget::Widget(QWidget *parent)
 
     animationTimer = new QTimer(this);
     connect(animationTimer,SIGNAL(timeout()),this,SLOT(DrawLoop()));
-    animationTimer->start(1000/3);
+    animationTimer->start(1000/10);
 
 }
 void Widget::update_Matrices()
@@ -97,6 +97,13 @@ void Widget::print_scene()
     SKN_to_SKK();
     SKK_to_SKEi();
     scene->addLine(temp0[0],temp0[1],VerEk[0],VerEk[1],QPen(Qt::green));
+    Ver[0] = 0;
+    Ver[1] = 0;
+    Ver[2] = 5;
+    SKM_to_SKN();
+    SKN_to_SKK();
+    SKK_to_SKEi();
+    scene->addLine(temp0[0],temp0[1],VerEk[0],-VerEk[1],QPen(Qt::blue));
     Ver[0] = 5;
     Ver[1] = 0;
     Ver[2] = 0;
@@ -104,13 +111,7 @@ void Widget::print_scene()
     SKN_to_SKK();
     SKK_to_SKEi();
     scene->addLine(temp0[0],temp0[1],VerEk[0],VerEk[1],QPen(Qt::red));
-    Ver[0] = 0;
-    Ver[1] = 0;
-    Ver[2] = 5;
-    SKM_to_SKN();
-    SKN_to_SKK();
-    SKK_to_SKEi();
-    scene->addLine(temp0[0],temp0[1],VerEk[0],-VerEk[1]);
+
     for(float z= Zmin; z<Zmax;z+=Dz)
     {
 
