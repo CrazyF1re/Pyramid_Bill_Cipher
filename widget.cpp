@@ -82,8 +82,39 @@ void Widget::SKK_to_SKEi()
 
 void Widget::print_scene()
 {
+
+    Ver[0] = 0;
+    Ver[1] = 0;
+    Ver[2] = 0;
+    SKM_to_SKN();
+    SKN_to_SKK();
+    SKK_to_SKEi();
+    float temp0[2] = {VerEk[0],VerEk[1]};
+    Ver[0] = 0;
+    Ver[1] = 5;
+    Ver[2] = 0;
+    SKM_to_SKN();
+    SKN_to_SKK();
+    SKK_to_SKEi();
+    scene->addLine(temp0[0],temp0[1],VerEk[0],VerEk[1],QPen(Qt::green));
+    Ver[0] = 5;
+    Ver[1] = 0;
+    Ver[2] = 0;
+    SKM_to_SKN();
+    SKN_to_SKK();
+    SKK_to_SKEi();
+    scene->addLine(temp0[0],temp0[1],VerEk[0],VerEk[1],QPen(Qt::red));
+    Ver[0] = 0;
+    Ver[1] = 0;
+    Ver[2] = 5;
+    SKM_to_SKN();
+    SKN_to_SKK();
+    SKK_to_SKEi();
+    scene->addLine(temp0[0],temp0[1],VerEk[0],-VerEk[1]);
     for(float z= Zmin; z<Zmax;z+=Dz)
     {
+
+
         for (float x = Xmin; x<Xmax;x+=Dx)
         {
             Ver[0] = x;

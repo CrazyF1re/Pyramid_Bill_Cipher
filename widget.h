@@ -14,19 +14,19 @@ class Widget : public QWidget
 {
     Q_OBJECT
     float x0 = 100;
-    float y0 = 0;
+    float y0 = 5;
     float z0 = 100;
     float xc = 160;
-    float yc = 80;
-    float xe = 800;
-    float ye = 800;
+    float yc = 120;
+    float xe = 200;
+    float ye = 200;
     Matrix T;
     Matrix S;
     Matrix Rx90;
     Matrix Ry;
     Matrix Rxw;
     Matrix V;
-    float P = 5;
+    float P = 3;
 
     double angle = 3.1415926535/54;
     double rad = 2;
